@@ -4,12 +4,13 @@ using Microsoft.OpenApi.Models;
 using PizzaStore.Models;
 var builder = WebApplication.CreateBuilder(args);
 
-
+var connectionString = builder.Configuration.GetConnectionString("Pizzas") ?? "DataSource=Pizzas.db";
 
 // Configurer le service DbContext avec une base de données en mémoire
 
-builder.Services.AddDbContext<PizzaDb>(options =>
-options.UseInMemoryDatabase("items"));
+
+
+builder.Services.AddSqlite<PizzaDb>(connectionString);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
